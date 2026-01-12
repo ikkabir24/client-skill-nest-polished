@@ -6,20 +6,19 @@ import { ToastContainer } from 'react-toastify';
 
 const HomeLayout = () => {
     return (
-        <div className='container mx-auto'>
+        <div className=' mx-auto'>
+            <header className='sticky top-0 w-full z-50'>
+                    <Navbar></Navbar>
+                </header>
 
-            <header>
-                <Navbar></Navbar>
-            </header>
+                <main>
+                    <Outlet></Outlet>
+                </main>
 
-            <main>
-                <Outlet></Outlet>
-            </main>
-
-            <footer>
-                <Footer></Footer>
-            </footer>
-            <ToastContainer></ToastContainer>
+                <footer>
+                    <Footer></Footer>
+                </footer>
+                <ToastContainer></ToastContainer>
         </div>
     );
 };

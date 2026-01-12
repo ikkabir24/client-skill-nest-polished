@@ -6,13 +6,15 @@ import Home from "../Components/Home/Home";
 import Dashboard from "../Components/Dashboard/Dashboard";
 import AllCourses from "../Components/AllCourses/AllCourses";
 import LoadingPage from "../Components/LoadingPage/LoadingPage";
-import PrivateRoute from "../provider/PrivateRoute";
+import PrivateRoute from "./PrivateRoute";
 import MyCreations from "../Components/MyCreations/MyCreations";
 import CourseDetails from "../Components/CourseDetails/CourseDetails";
 import CreateCourse from "../Components/MyCreations/CreateCourse";
 import UpdateCourse from "../Components/MyCreations/UpdateCourse";
 import MyEnrolements from "../Components/MyEnrolements/MyEnrolements";
 import Error from "../Components/ErrorPage/Error";
+import ContactUs from "../Components/ContactUs/ContactUs";
+import AboutUs from "../Components/AboutUs/AboutUs";
 
 const router = createBrowserRouter(
     [
@@ -23,6 +25,14 @@ const router = createBrowserRouter(
                 {
                     index: true,
                     Component: Home,
+                },
+                {
+                    path: '/contactUs',
+                    Component: ContactUs
+                },
+                {
+                    path: '/aboutUs',
+                    Component: AboutUs
                 },
                 {
                     path: '/allCourses',
@@ -44,7 +54,7 @@ const router = createBrowserRouter(
                     path: '/courseDetails/:id',
                     loader: ({ params }) => fetch(`http://localhost:3000/courses/${params.id}`),
                     HydrateFallback: LoadingPage,
-                    element: <PrivateRoute><CourseDetails></CourseDetails></PrivateRoute>
+                    element: <CourseDetails></CourseDetails>
                 },
                 {
                     path: '/dashboard',

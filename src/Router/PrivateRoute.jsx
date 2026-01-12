@@ -1,5 +1,5 @@
 import React, { use } from 'react';
-import { AuthContext } from './AuthProvider';
+import { AuthContext } from '../provider/AuthProvider';
 import { Navigate } from 'react-router';
 import LoadingPage from '../Components/LoadingPage/LoadingPage';
 

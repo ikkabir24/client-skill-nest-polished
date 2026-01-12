@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
+import SectionTitle from '../../shared/SectionTitle';
 
 
 const PopularCourses = () => {
@@ -26,14 +27,17 @@ const PopularCourses = () => {
 
 
     return (
-        <section className="py-12 bg-base-100">
-            <div className="max-w-7xl mx-auto px-4">
-                <h2 className="text-3xl font-bold text-center mb-8">
-                    Popular Courses
-                </h2>
-                <div className="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+        <section className="pt-16 md:pt-20 bg-base-100">
+            <div className="max-w-7xl mx-auto">
+                <SectionTitle
+                    title="Our Trending Courses"
+                    subtitle="Popular Courses"
+                />
 
-                    {courses.map(course => <div
+                <div class="container mx-auto px-6 md:px-12">
+                    <div className="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+
+                        {courses.map(course => <div
                             key={course._id}
                             className="card bg-base-200 shadow-md hover:shadow-xl transition"
                             data-aos="fade-up"
@@ -51,13 +55,13 @@ const PopularCourses = () => {
                                     />
                                 </div>
                                 <div className="card-actions justify-between items-center mt-4">
-                                 
+
                                     {
                                         course.isfeatured
-                                        ? <span className="badge badge-outline">Trending</span>
-                                        : <div></div>
+                                            ? <span className="badge badge-outline">Trending</span>
+                                            : <div></div>
                                     }
-                                    
+
                                     <Link
                                         to={`/courseDetails/${course._id}`}
                                         className="btn btn-sm btn-primary"
@@ -69,9 +73,10 @@ const PopularCourses = () => {
                                 </div>
                             </div>
                         </div>
-                    )}
+                        )}
 
 
+                    </div>
                 </div>
             </div>
         </section>

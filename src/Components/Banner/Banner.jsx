@@ -1,45 +1,103 @@
-import React, { use, useEffect } from 'react';
-import { Link } from 'react-router';
-import { AuthContext } from '../../provider/AuthProvider';
-import AOS from 'aos';
-import 'aos/dist/aos.css';
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay, Pagination, Navigation } from "swiper/modules";
+import { motion } from "framer-motion";
+import { Link } from "react-router";
+import { useContext } from "react";
 
+import { AuthContext } from "../../provider/AuthProvider";
 
-const Banner = () => {
+import "swiper/css";
+import "swiper/css/pagination";
+import "swiper/css/navigation";
 
-  const { user } = use(AuthContext);
+const slides = [
+  {
+    id: 1,
+    title: "Upgrade Your Skills",
+    subtitle: "Learn industry-ready skills from expert mentors",
+    image: "/banner1.png",
+  },
+  {
+    id: 2,
+    title: "Build Your Career",
+    subtitle: "Practical learning with real-world projects",
+    image: "/banner2.png",
+  },
+  {
+    id: 3,
+    title: "Learn Anytime, Anywhere",
+    subtitle: "Flexible courses designed for your schedule",
+    image: "/banner3.png",
+  },
+];
 
-  useEffect(() => {
-    AOS.init({ duration: 1000 });
-  }, []);
-
+const HeroCarousel = () => {
+  const { user } = useContext(AuthContext);
 
   return (
-    <div className="hero min-h-[70vh] bg-gradient-to-r from-gray-900 via-gray-800 to-gray-700 text-white">
-      <div className="hero-content text-center">
-        <div className="max-w-2xl" data-aos="fade-up">
-          <h1 className="text-6xl font-bold font-serif drop-shadow-md" data-aos="zoom-in">SkillNest</h1>
-          <p className="py-6 text-xl font-light italic" data-aos="fade-up" data-aos-delay="200">Learn. Share. Grow Together.</p>
-          <div className="flex justify-center gap-4" data-aos="fade-up" data-aos-delay="400">
-            <Link to={'/allCourses'}>
-              <button className="btn btn-outline btn-light">Explore Courses</button>
-            </Link>
-            {user
-              ? <Link to="/createCourse">
-                <button className="btn btn-light text-gray-500">Create A Course</button>
-              </Link>
-              : <Link to="/register">
-                <button className="btn btn-light text-gray-500">Create A Course</button>
-              </Link>
-            }
-          </div>
-        </div>
-      </div>
-    </div>
+    <section className="w-full">
+      <Swiper
+        modules={[Autoplay, Pagination, Navigation]}
+        autoplay={{ delay: 4500, disableOnInteraction: false }}
+        pagination={{ clickable: true }}
+        navigation
+        loop
+        className="h-[60vh] md:h-[70vh]"
+      >
+        {slides.map((slide) => (
+          <SwiperSlide key={slide.id}>
+            <div
+              className="relative h-full w-full bg-cover bg-center"
+              style={{ backgroundImage: `url(${slide.image})` }}
+            >
+              {/* Gradient Overlay (KEY PART) */}
+              <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-black/30 dark:from-black/80 dark:via-black/60 dark:to-black/40" />
 
+              {/* Content */}
+              <div className="relative z-10 flex h-full items-center">
+                <div className="container mx-auto px-6 md:px-12">
+                  <motion.div
+                    initial={{ opacity: 0, y: 40 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.7 }}
+                    className="max-w-xl rounded-2xl bg-black/30 dark:bg-black/40 backdrop-blur-md p-6 md:p-8 text-white shadow-lg"
+                  >
+                    <h1 className="text-3xl md:text-5xl font-bold leading-tight">
+                      {slide.title}
+                    </h1>
 
+                    <p className="mt-4 text-lg text-white/90">
+                      {slide.subtitle}
+                    </p>
 
+                    <div className="mt-6 flex flex-wrap gap-4">
+                      <Link to="/allCourses" className="btn btn-primary">
+                        Explore Courses
+                      </Link>
+
+                      {!user && (
+                        <Link
+                          to="/register"
+                          className="btn btn-info btn-outline text-white border-white/60 hover:border-info"
+                        >
+                          Join Now
+                        </Link>
+                      )}
+                    </div>
+                  </motion.div>
+                </div>
+              </div>
+
+              {/* Scroll Hint */}
+              <div className="absolute bottom-6 left-1/2 -translate-x-1/2 text-white opacity-70 animate-bounce">
+                ↓
+              </div>
+            </div>
+          </SwiperSlide>
+        ))}
+      </Swiper>
+    </section>
   );
 };
 
-export default Banner;
+export default HeroCarousel;

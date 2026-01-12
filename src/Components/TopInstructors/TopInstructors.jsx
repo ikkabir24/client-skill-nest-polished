@@ -1,47 +1,50 @@
-import React, { useEffect, useState } from 'react';
-import AOS from 'aos';
-import 'aos/dist/aos.css';
-import axios from 'axios';
+import React, { useEffect, useState } from "react";
+import AOS from "aos";
+import "aos/dist/aos.css";
+import axios from "axios";
+import SectionTitle from "../../shared/SectionTitle";
 
 const TopInstructors = () => {
     const [instructors, setInstructors] = useState([]);
 
     useEffect(() => {
-        AOS.init({ duration: 1000 });
-        axios.get('http://localhost:3000/topInstructors')
-            .then(axiosData => setInstructors(axiosData.data));
+        AOS.init({ duration: 1000, once: true }); // Initialize AOS
+        axios.get("http://localhost:3000/topInstructors").then((axiosData) => {
+            setInstructors(axiosData.data);
+        });
     }, []);
 
     return (
-        <section className="py-12 bg-base-100">
-            <div className="max-w-7xl mx-auto px-4">
-                <h2 className="text-3xl font-bold text-center mb-10" data-aos="fade-down">
-                    Top Instructors
-                </h2>
+        <section className="pb-16 md:pb-20 bg-base-100">
+            <div className="container mx-auto px-6 md:px-12">
+                {/* Section Title */}
+                <SectionTitle title="Meet Our Experts" subtitle="Top Instructors" />
 
-                <div className="grid gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+                {/* Instructors Grid */}
+                <div className="grid gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mt-8">
                     {instructors.map((instructor, index) => (
                         <div
                             key={instructor._id}
-                            className="card bg-base-200 shadow-md hover:shadow-xl transition"
-                            data-aos="fade-up"
-                            data-aos-delay={index * 100}
+                            className="card h-full border border-base-200 bg-base-100 shadow-sm hover:shadow-lg transition-all duration-300 rounded-lg overflow-hidden flex flex-col items-center text-center p-6"
+                            data-aos="fade-up"                   // AOS animation
+                            data-aos-delay={index * 100}         // Stagger effect
                         >
-                            <figure className="px-6 pt-6">
+                            {/* Avatar */}
+                            <div className="w-32 h-32 rounded-full overflow-hidden mb-4 border-2 border-primary shadow-inner">
                                 <img
                                     src={instructor.imageUrl}
                                     alt={instructor.name}
-                                    className="rounded-xl w-32 h-32 object-cover"
+                                    className="w-full h-full object-cover"
                                 />
-                            </figure>
-                            <div className="card-body items-center text-center">
-                                <h3 className="card-title text-lg font-semibold">{instructor.name}</h3>
-                                <p className="text-sm text-gray-500">{instructor.expertise}</p>
-                                <div className="card-actions mt-4">
-                                    <button className="btn btn-outline btn-sm">View Profile</button>
-                                    <button className="btn btn-primary btn-sm">Courses</button>
-                                </div>
                             </div>
+
+                            {/* Name & Expertise */}
+                            <h3 className="text-lg font-semibold text-base-content">
+                                {instructor.name}
+                            </h3>
+                            <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                                {instructor.expertise}
+                            </p>
                         </div>
                     ))}
                 </div>
