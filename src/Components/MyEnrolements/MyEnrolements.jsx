@@ -33,10 +33,10 @@ const MyEnrolements = () => {
         return <LoadingPage></LoadingPage>
     }
     return (
-        <div className='p-3'>
+        <div className='py-3'>
             <h1 className='text-lg font-semibold'>My Enrolments: {myEnrolements.length}</h1>
 
-            <div className='p-3 space-y-1'>
+            <div className='py-3 space-y-1'>
                 {
                     myEnrolements.map(course => <div key={course._id} className="flex items-center justify-between bg-base-200 p-4 rounded-lg shadow-sm hover:shadow-md transition duration-300 mb-4">
 

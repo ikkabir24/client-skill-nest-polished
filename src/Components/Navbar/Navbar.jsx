@@ -9,10 +9,12 @@ import { IoIosHome } from 'react-icons/io';
 import { MdBallot, MdContactPhone, MdSpaceDashboard } from 'react-icons/md';
 import { FaInfoCircle } from 'react-icons/fa';
 import { LuLogIn, LuLogOut, LuUserRoundPlus, LuUser } from 'react-icons/lu';
+import { ThemeContext } from '../../provider/ThemeProvider';
+import ThemeToggle from '../../shared/ThemeToggle';
 
 const Navbar = () => {
     const { user, logOut } = useContext(AuthContext);
-    const [theme, setTheme] = useState(localStorage.getItem('theme') || 'light');
+    const { theme, setTheme } = useContext(ThemeContext);
 
     useEffect(() => {
         const html = document.documentElement;
@@ -132,11 +134,6 @@ const Navbar = () => {
                         >
                             {user ? (
                                 <>
-                                    <li>
-                                        <Link to="/profile" className="flex items-center gap-2">
-                                            <LuUser /> Profile
-                                        </Link>
-                                    </li>
 
                                     <li onClick={handleLogout}>
                                         <span className="flex items-center gap-2">

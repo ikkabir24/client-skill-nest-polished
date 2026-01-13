@@ -47,7 +47,7 @@ const CreateCourse = () => {
 
         <form onSubmit={handleOnSubmit} className="max-w-3xl mx-auto bg-base-200 p-6 rounded-lg shadow-md space-y-4 my-3">
 
-            <button type='button' onClick={handleBack} className='flex gap-2 items-center btn btn-outline'>
+            <button type='button' onClick={handleBack} className='flex gap-2 items-center btn btn-primary'>
                 <IoArrowBack />
                 Back
             </button>

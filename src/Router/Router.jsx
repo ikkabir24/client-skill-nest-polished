@@ -15,6 +15,7 @@ import MyEnrolements from "../Components/MyEnrolements/MyEnrolements";
 import Error from "../Components/ErrorPage/Error";
 import ContactUs from "../Components/ContactUs/ContactUs";
 import AboutUs from "../Components/AboutUs/AboutUs";
+import Profile from "../Components/Profile/Profile";
 
 const router = createBrowserRouter(
     [
@@ -41,10 +42,6 @@ const router = createBrowserRouter(
                     HydrateFallback: LoadingPage
                 },
                 {
-                    path: '/createCourse',
-                    element: <PrivateRoute><CreateCourse></CreateCourse></PrivateRoute>
-                },
-                {
                     path: '/updateCourse/:id',
                     loader: ({ params }) => fetch(`http://localhost:3000/courses/${params.id}`),
                     HydrateFallback: LoadingPage,
@@ -55,20 +52,6 @@ const router = createBrowserRouter(
                     loader: ({ params }) => fetch(`http://localhost:3000/courses/${params.id}`),
                     HydrateFallback: LoadingPage,
                     element: <CourseDetails></CourseDetails>
-                },
-                {
-                    path: '/dashboard',
-                    Component: Dashboard,
-                    children: [
-                        {
-                            path: '/dashboard/myCreations',
-                            element: <PrivateRoute><MyCreations></MyCreations></PrivateRoute>
-                        },
-                        {
-                            path: '/dashboard/myEnrolements',
-                            element: <PrivateRoute><MyEnrolements></MyEnrolements></PrivateRoute>
-                        },
-                    ]
                 },
                 {
                     path: "/login",
@@ -83,7 +66,31 @@ const router = createBrowserRouter(
                     Component: Error,
                 },
             ]
-        }
+        },
+        {
+            path: '/dashboard',
+            element: <PrivateRoute>
+                <Dashboard />
+            </PrivateRoute>,
+            children: [
+                {
+                    index: true,
+                    Component: Profile
+                },
+                {
+                    path: '/dashboard/myCreations',
+                    element: <PrivateRoute><MyCreations></MyCreations></PrivateRoute>
+                },
+                {
+                    path: '/dashboard/myEnrolements',
+                    element: <PrivateRoute><MyEnrolements></MyEnrolements></PrivateRoute>
+                },
+                {
+                    path: '/dashboard/createCourse',
+                    element: <PrivateRoute><CreateCourse></CreateCourse></PrivateRoute>
+                },
+            ]
+        },
     ]
 )
 

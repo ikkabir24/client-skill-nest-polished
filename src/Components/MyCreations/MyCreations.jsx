@@ -36,7 +36,7 @@ const MyCreations = () => {
 
     return (
         <div>
-            <div className='p-3'>
+            <div className='py-3'>
                 <h1 className='font-semibold text-lg'>My Courses: {myCourse.length}</h1>
             </div>
 
@@ -54,7 +54,7 @@ const MyCreations = () => {
                         </div>
 
                         <div className="flex flex-col md:flex-row gap-2 mt-4 md:mt-0">
-                            <Link to={`/courseDetails/${course._id}`} className="btn btn-outline btn-sm">
+                            <Link to={`/courseDetails/${course._id}`} className="btn btn-primary btn-sm">
                                 View Details
                             </Link>
                             <Link to={`/updateCourse/${course._id}`} className="btn btn-info btn-sm">

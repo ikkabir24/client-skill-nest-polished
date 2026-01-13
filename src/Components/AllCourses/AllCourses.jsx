@@ -120,7 +120,7 @@ const AllCourses = () => {
                         <select
                             onChange={handleCategory}
                             defaultValue=""
-                            className="select bg-white border border-primary"
+                            className="select border border-primary"
                         >
                             <option disabled={true}>
                                 Select Category
@@ -137,7 +137,7 @@ const AllCourses = () => {
                         <select
                             onChange={handleSelect}
                             defaultValue="rating-desc"
-                            className="select bg-white border border-primary"
+                            className="select border border-primary"
                         >
                             <option disabled={true}>
                                 Sort by

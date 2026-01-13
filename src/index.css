@@ -14,3 +14,7 @@ a.active {
 .container{
   @apply max-w-7xl mx-auto md:py-4
 }
+
+.dashNav a.active {
+  @apply bg-primary text-primary-content
+}
