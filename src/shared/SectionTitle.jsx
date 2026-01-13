@@ -11,7 +11,7 @@ const SectionTitle = ({
 
     return (
         <div
-            className={`mb-12 flex flex-col gap-3 ${alignment} ${className}`}
+            className={`mb-6 flex flex-col gap-3 ${alignment} ${className}`}
         >
             {/* Subtitle */}
             {subtitle && (

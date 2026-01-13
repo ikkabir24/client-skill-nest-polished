@@ -37,7 +37,6 @@ const router = createBrowserRouter(
                 {
                     path: '/allCourses',
                     Component: AllCourses,
-                    loader: () => fetch('http://localhost:3000/categories'),
                     HydrateFallback: LoadingPage
                 },
                 {

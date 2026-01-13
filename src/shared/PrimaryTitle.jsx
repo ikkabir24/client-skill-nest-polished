@@ -2,7 +2,7 @@ import React from 'react';
 
 const PrimaryTitle = ({children, tailClass}) => {
     return (
-        <p className={`text-2xl sm:text-3xl md:text-4xl font-bold text-base-content leading-tight ${tailClass}`}>
+        <p className={`text-lg sm:text-xl md:text-2xl font-semibold text-base-content leading-tight ${tailClass}`}>
             {children}
         </p>
     );

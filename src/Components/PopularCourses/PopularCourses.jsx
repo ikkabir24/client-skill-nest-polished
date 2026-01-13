@@ -4,18 +4,12 @@ import { Link } from 'react-router';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import SectionTitle from '../../shared/SectionTitle';
+import CourseCard from '../AllCourses/CourseCard';
 
 
 const PopularCourses = () => {
 
     const [courses, setCourses] = useState([]);
-
-    useEffect(() => {
-        axios.get('http://localhost:3000/popular')
-            .then(axiosData => {
-                setCourses(axiosData.data);
-            })
-    }, [])
 
     useEffect(() => {
         AOS.init({ duration: 1000 });
@@ -28,51 +22,19 @@ const PopularCourses = () => {
 
     return (
         <section className="pt-16 md:pt-20 bg-base-100">
-            <div className="max-w-7xl mx-auto">
+            <div>
                 <SectionTitle
                     title="Our Trending Courses"
                     subtitle="Popular Courses"
                 />
 
                 <div class="container mx-auto px-6 md:px-12">
-                    <div className="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+                    <div className="grid gap-6 grid-cols-1 md:grid-cols-3 lg:grid-cols-4">
 
-                        {courses.map(course => <div
-                            key={course._id}
-                            className="card bg-base-200 shadow-md hover:shadow-xl transition"
-                            data-aos="fade-up"
-                        >
-                            <div className="card-body">
-                                <h3 className="card-title text-lg font-semibold">{course.title}</h3>
-                                <p className="text-sm text-gray-400">{course.category_title}</p>
-                                <div>
-                                    <img
-                                        className="w-full h-[250px] object-cover"
-                                        src={course.imageUrl}
-                                        alt={course.title}
-                                        data-aos="zoom-in"
-                                        data-aos-delay="200"
-                                    />
-                                </div>
-                                <div className="card-actions justify-between items-center mt-4">
-
-                                    {
-                                        course.isfeatured
-                                            ? <span className="badge badge-outline">Trending</span>
-                                            : <div></div>
-                                    }
-
-                                    <Link
-                                        to={`/courseDetails/${course._id}`}
-                                        className="btn btn-sm btn-primary"
-                                        data-aos="fade-left"
-                                        data-aos-delay="400"
-                                    >
-                                        View Details
-                                    </Link>
-                                </div>
-                            </div>
-                        </div>
+                        {courses.map((course, i) => <CourseCard
+                        key={i}
+                        course={course}
+                        ></CourseCard>
                         )}
 
 

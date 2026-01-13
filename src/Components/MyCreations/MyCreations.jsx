@@ -15,9 +15,9 @@ const MyCreations = () => {
 
     useEffect(() => {
         if (user?.email) {
-            axios.get(`http://localhost:3000/courses?email=${user.email}`)
+            axios.get(`http://localhost:3000/courses?email=${user?.email}`)
                 .then(axiosData => {
-                    setMyCourse(axiosData.data);
+                    setMyCourse(axiosData.data.courses);
                     setLoading(false)
                 })
         }
