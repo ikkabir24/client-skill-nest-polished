@@ -142,8 +142,8 @@ const AllCourses = () => {
                             <option disabled={true}>
                                 Sort by
                             </option>
-                            <option value={"rating-desc"}>Ratings : High - Low</option>
-                            <option value={"rating-asc"}>Ratings : Low - High</option>
+                            <option value={"rating-desc"}>Rating : High - Low</option>
+                            <option value={"rating-asc"}>Rating : Low - High</option>
                             <option value={"price-desc"}>Price : High - Low</option>
                             <option value={"price-asc"}>Price : Low - High</option>
                         </select>
@@ -153,7 +153,7 @@ const AllCourses = () => {
                 <div className='grid gap-6 grid-cols-1 md:grid-cols-3 lg:grid-cols-4'>
                     {
                         loading ? (
-                            <LoadingPage />
+                            <LoadingPage className={'md:col-span-3 lg:col-span-4'} />
                         ) : (
                             courses.map(course => (
                                 <CourseCard
