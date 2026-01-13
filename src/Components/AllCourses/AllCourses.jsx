@@ -5,8 +5,11 @@ import LoadingPage from '../LoadingPage/LoadingPage';
 import SectionTitle from '../../shared/SectionTitle';
 import PrimaryTitle from '../../shared/PrimaryTitle';
 import { GrNext, GrPrevious } from "react-icons/gr";
+import { useLoaderData } from 'react-router';
 
 const AllCourses = () => {
+
+    const categories = useLoaderData();
 
     const [loading, setLoading] = useState(true);
     const [courses, setCourses] = useState([]);
@@ -16,11 +19,13 @@ const AllCourses = () => {
     const [sort, setSort] = useState("rating");
     const [order, setOrder] = useState("desc");
     const [searchText, setSearchText] = useState("");
+
     const limit = 8;
+    console.log(categories);
 
 
     useEffect(() => {
-        axios.get(`http://localhost:3000/courses?limit=${limit}&skip=${currentPage*limit}&sort=${sort}&order=${order}&search=${searchText}`)
+        axios.get(`http://localhost:3000/courses?limit=${limit}&skip=${currentPage * limit}&sort=${sort}&order=${order}&search=${searchText}`)
             .then(axiosData => {
                 setCourses(axiosData.data.courses);
                 setTotalCourses(axiosData.data.total);
@@ -36,23 +41,29 @@ const AllCourses = () => {
             });
     }, [currentPage, order, sort, searchText]);
 
-    // const handleCategory = (category) => {
-    //     axios.get(`http://localhost:3000/courses?category=${category}`)
-    //         .then(axiosData => {
-    //             setCourses(axiosData.data);
-    //             setLoading(false);
-    //         })
-    //         .catch(error => {
-    //             console.error("Error fetching courses:", error);
-    //             setLoading(false);
-    //         });
-    // }
 
     const handleSelect = (e) => {
         const sortData = e.target.value;
         setSort(sortData.split("-")[0]);
         setOrder(sortData.split("-")[1]);
 
+    }
+
+    const handleCategory = e =>{
+        axios.get(`http://localhost:3000/courses?category=${e.target.value}`)
+        .then(axiosData => {
+                setCourses(axiosData.data.courses);
+                setTotalCourses(axiosData.data.total);
+
+                const page = Math.ceil(axiosData.data.total / limit);
+                setTotalPage(page);
+
+                setLoading(false);
+            })
+            .catch(error => {
+                console.error("Error fetching courses:", error);
+                setLoading(false);
+            });
     }
 
     if (loading) {
@@ -97,12 +108,29 @@ const AllCourses = () => {
                         </label>
                     </form>
 
-                    {/* Filter */}
-                    <div className="">
-                        <select 
-                        onChange={handleSelect}
-                        defaultValue="rating-desc"
-                        className="select bg-white border border-primary"
+                    {/* Filter & Sort */}
+                    <div className="flex flex-col items-center gap-2">
+                        <select
+                            onChange={handleCategory}
+                            defaultValue=""
+                            className="select bg-white border border-primary"
+                        >
+                            <option disabled={true}>
+                                Select Category
+                            </option>
+                            {
+                                categories.map(category=>(
+                                    <option 
+                                    key={category.id}
+                                    value={category.category}
+                                    >{category.category_title}</option>
+                                ))
+                            }
+                        </select>
+                        <select
+                            onChange={handleSelect}
+                            defaultValue="rating-desc"
+                            className="select bg-white border border-primary"
                         >
                             <option disabled={true}>
                                 Sort by
@@ -128,29 +156,29 @@ const AllCourses = () => {
                     {
                         currentPage > 0 && (
                             <button
-                            className='btn btn-primary'
-                            onClick={()=>setCurrentPage(currentPage-1)}
+                                className='btn btn-primary'
+                                onClick={() => setCurrentPage(currentPage - 1)}
                             >
-                                <GrPrevious/>
+                                <GrPrevious />
                             </button>
                         )
                     }
                     {
-                        [...Array(totalPage).keys()].map(i=>(
+                        [...Array(totalPage).keys()].map(i => (
                             <button
-                            onClick={()=>setCurrentPage(i)}
-                            className={`btn ${i === currentPage && 'btn-primary'}`}
-                            key={i}
+                                onClick={() => setCurrentPage(i)}
+                                className={`btn ${i === currentPage && 'btn-primary'}`}
+                                key={i}
                             >
-                                {i+1}
+                                {i + 1}
                             </button>
                         ))
                     }
                     {
                         currentPage < totalPage - 1 && (
                             <button
-                            className='btn btn-primary'
-                            onClick={()=>setCurrentPage(currentPage+1)}
+                                className='btn btn-primary'
+                                onClick={() => setCurrentPage(currentPage + 1)}
                             >
                                 <GrNext />
                             </button>
