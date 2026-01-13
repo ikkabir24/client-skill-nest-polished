@@ -25,7 +25,43 @@ const AllCourses = () => {
 
 
     useEffect(() => {
-        axios.get(`http://localhost:3000/courses?limit=${limit}&skip=${currentPage * limit}&sort=${sort}&order=${order}&search=${searchText}`)
+        setLoading(true); // start loading before fetch
+        axios.get(
+            `http://localhost:3000/courses?limit=${limit}&skip=${currentPage * limit}&sort=${sort}&order=${order}&search=${searchText}`
+        )
+            .then((axiosData) => {
+                setCourses(axiosData.data.courses);
+                setTotalCourses(axiosData.data.total);
+
+                const page = Math.ceil(axiosData.data.total / limit);
+                setTotalPage(page);
+
+                setLoading(false); // stop loading after fetch
+            })
+            .catch((error) => {
+                console.error("Error fetching courses:", error);
+                setLoading(false);
+            });
+    }, [currentPage, order, sort, searchText]);
+
+
+
+    const handleSelect = (e) => {
+        const sortData = e.target.value;
+        setSort(sortData.split("-")[0]);
+        setOrder(sortData.split("-")[1]);
+
+    }
+
+    const handleSearch = (e) => {
+        setSearchText(e.target.value);
+    };
+
+
+
+    const handleCategory = e => {
+        setLoading(true);
+        axios.get(`http://localhost:3000/courses?category=${e.target.value}`)
             .then(axiosData => {
                 setCourses(axiosData.data.courses);
                 setTotalCourses(axiosData.data.total);
@@ -39,35 +75,6 @@ const AllCourses = () => {
                 console.error("Error fetching courses:", error);
                 setLoading(false);
             });
-    }, [currentPage, order, sort, searchText]);
-
-
-    const handleSelect = (e) => {
-        const sortData = e.target.value;
-        setSort(sortData.split("-")[0]);
-        setOrder(sortData.split("-")[1]);
-
-    }
-
-    const handleCategory = e =>{
-        axios.get(`http://localhost:3000/courses?category=${e.target.value}`)
-        .then(axiosData => {
-                setCourses(axiosData.data.courses);
-                setTotalCourses(axiosData.data.total);
-
-                const page = Math.ceil(axiosData.data.total / limit);
-                setTotalPage(page);
-
-                setLoading(false);
-            })
-            .catch(error => {
-                console.error("Error fetching courses:", error);
-                setLoading(false);
-            });
-    }
-
-    if (loading) {
-        return <LoadingPage></LoadingPage>
     }
 
     return (
@@ -85,7 +92,7 @@ const AllCourses = () => {
                     <PrimaryTitle>Apps Found - {totalCourses}</PrimaryTitle>
 
                     {/* Search */}
-                    <form onChange={(e) => setSearchText(e.target.value)}>
+                    <form onChange={handleSearch}>
                         <label className="input max-w-[300px] w-[300px] input-primary">
                             <svg
                                 className="h-[1em] opacity-50"
@@ -119,10 +126,10 @@ const AllCourses = () => {
                                 Select Category
                             </option>
                             {
-                                categories.map(category=>(
-                                    <option 
-                                    key={category.id}
-                                    value={category.category}
+                                categories.map(category => (
+                                    <option
+                                        key={category.id}
+                                        value={category.category}
                                     >{category.category_title}</option>
                                 ))
                             }
@@ -145,11 +152,18 @@ const AllCourses = () => {
 
                 <div className='grid gap-6 grid-cols-1 md:grid-cols-3 lg:grid-cols-4'>
                     {
-                        courses.map(course => <CourseCard
-                            key={course._id}
-                            course={course}
-                        ></CourseCard>)
+                        loading ? (
+                            <LoadingPage />
+                        ) : (
+                            courses.map(course => (
+                                <CourseCard
+                                    key={course._id}
+                                    course={course}
+                                />
+                            ))
+                        )
                     }
+
                 </div>
 
                 <div className="flex justify-center flex-wrap gap-3 pt-4">
